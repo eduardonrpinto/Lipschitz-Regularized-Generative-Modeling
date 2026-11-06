@@ -1,12 +1,13 @@
 # Lipschigz Reularized Generative Modeling
 
-This repository contains a Python implementation of **GPA**, a particle-transport generative algorithm, together with an **f-GAN** baseline, and the code to compare them on 2D datasets.
+This repository consists of an investigation onto the role of (KL,Lipshitz-L)-divergences (see [^3]) in generative modeling. It contains an implementation of an f-GAN and a GPA, a generative partcle algorithm presented in [^2], and inicial experiments with these two models to try to address the following questions:
 
-- **GPA**: particles start from a prior (a Gaussian) and are moved toward the data along the gradient of an L-Lipschitz critic. The critic is trained to estimate an f-divergence between the particles and the data, and the Lipschitz constant `L` follows a piecewise-constant schedule that you define. The step size is `dt = dt0 / L`.
-- **f-GAN**: a generator network is trained against a discriminator with the same architecture and the same Lipschitz projection, so the two methods can be compared fairly. The `L` schedule works the same way as in GPA.
-The f-GAN baseline follows Nowozin et al.[^1], with the same Lipschitz projection as GPA.
+- Can GPA be an alternative to GANs and $f$-GANs that provides more stable training and more effective learning?
+- What role can the Lipschitz regularization parameter L play in algorithms such as $f$-GANs and GPA? 
 
-[^1]: S. Nowozin et al., *f-GAN*, NeurIPS 2016. https://arxiv.org/abs/1606.00709
+The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of $L$ are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (\text{KL} behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lipshitz-L)-divergences. Some preliminary results on this topci can be found in: 
+
+**Preprint (draft, not peer reviewed):** [Asymptotic behavior of reuglarized discriminators in generative modeling](Asymptotic_behavior_of_regularized_discriminators_in_generative_modeling_and-beyond.pdf), version of November 2026.
 
 <!-- Put your best result here, for example a GIF of GPA on eight_gaussians. -->
 <!-- ![hero](docs/images/hero.gif) -->
