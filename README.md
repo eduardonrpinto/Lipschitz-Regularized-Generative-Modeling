@@ -5,7 +5,7 @@ This repository consists of an investigation onto the role of (KL,Lip-L)-diverge
 - Can GPA be an alternative to GANs and f-GANs that provides more stable training and more effective learning?
 - What role can the Lipschitz regularization parameter L play in algorithms such as f-GANs and GPA? 
 
-The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topci can be found in: 
+The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topic can be found in: 
 
 **Preprintg:** [Asymptotic behavior of reuglarized discriminators in generative modeling](preprint.pdf), version of November 2026.
 
