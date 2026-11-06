@@ -1,11 +1,11 @@
 # Lipschigz Reularized Generative Modeling
 
-This repository consists of an investigation onto the role of (KL,$\text{Lip}_L$)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
+This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
 - Can GPA be an alternative to GANs and $f$-GANs that provides more stable training and more effective learning?
 - What role can the Lipschitz regularization parameter L play in algorithms such as $f$-GANs and GPA? 
 
-The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of $L$ are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,$\text{Lip}_L$)-divergences. Some preliminary results on this topci can be found in: 
+The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topci can be found in: 
 
 **Preprint (draft, not peer reviewed):** [Asymptotic behavior of reuglarized discriminators in generative modeling](Asymptotic_behavior_of_regularized_discriminators_in_generative_modeling_and-beyond.pdf), version of November 2026.
 
@@ -120,7 +120,7 @@ To run the $f$-GAN one of the following loss must be chosen:
 - KL: `-- divergence kl --no-projection`
 - (KL,$Lip_L$): `--divergence KL --L (value of L)`
 
-When using (KL,$Lip_L$)-divergence, one can also choose adaptive L. Here are some exmaples:
+When using (KL,Lip_L)-divergence, one can also choose adaptive L. Here are some exmaples:
 
 ```bash
 #Gan loss
@@ -305,6 +305,7 @@ _Add your measured table here: hardware, number of seeds, and the median time an
 my-genmodel/
 ├── pyproject.toml, uv.lock       # dependencies (exact versions in the lockfile)
 ├── README.md
+├── preprint.pdf
 ├── src/genmodel/
 │   ├── gpa.py                    # GPA algorithm, Lipschitz critic, L schedule, ODE solvers
 │   ├── fgan.py                   # f-GAN: generator, discriminator, divergences, training loop
