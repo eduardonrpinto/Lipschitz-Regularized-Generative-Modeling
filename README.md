@@ -227,31 +227,34 @@ All experiments use the `eight_gaussians` dataset.
 **Figure 2** (_method and short description_)
 
 ```bash
-# command for figure 2
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 1 --L-steps 12000
 ```
+We observe that the f-GAN with (KL,Lip-1)-divergence learns the whole data landscape better than the conventional GAN, but still fails to capture the eight distinct gaussians
 
 **Figure 3** (_method and short description_)
 
 ```bash
-# command for figure 3
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 20 --L-steps 12000
 ```
+With (KL,Lip-20)-GAN we observe improvements in comparison to the (KL,Lip-20)-GAN with the same number of training steps, altough far from a satisfatory learning of the distributions
 
 **Figure 4** (_method and short description_)
 
 ```bash
-# command for figure 4
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 --L-steps 3000 --prior-mean 4 4
 ```
+GPA with L=1 achieves a much finer learning of the target distribution and also more stable training. This could have to do with the fact that GPA only has to train a neural network for learning the discriminator and not two neural networks like GAN. 
 
 **Figure 5** (_method and short description_)
 
 ```bash
-# command for figure 5
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 100 --L-steps 3000 --prior-mean 4 4
 ```
-
+GPA with L=100 collapses onto the modes which are nearest from the prior distribution, suggesting that L=100 provides a too strong discrimination signal which makes all the particles collapse immediately onto the closest mode instead of exploring the space. We recall that with L=100, (KL,Lip-100) is closer to KL, which is known for its tendency for mode collpase. 
 
 ### Comments
 
-_Write your comments on the six figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
+
 
 | Figure | Number of steps | SW distance | SW / floor | Training time |
 |---|---|---|---|---|
