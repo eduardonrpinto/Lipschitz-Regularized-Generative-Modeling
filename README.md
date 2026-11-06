@@ -267,7 +267,7 @@ my-genmodel/
 ## Reference
 
 
-[^1]: Birrell et al., *$(f,Γ)$-Divergences: Interpolating between f-Divergences and Integral Probability Metrics*, https://arxiv.org/abs/2011.05953
+[^1]: Birrell et al., *(f,Γ)*-Divergences: Interpolating between f-Divergences and Integral Probability Metrics*, https://arxiv.org/abs/2011.05953
 [^2]: S. Nowozin et al., *f-GAN*, https://arxiv.org/abs/1606.00709
 [^3]: H. Gu et al., *Lipschitz-regularized gradient flows and generative particle algorithms for high-dimensional scarce data*, https://arxiv.org/abs/2210.17230
 
