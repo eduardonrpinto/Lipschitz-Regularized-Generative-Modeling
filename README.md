@@ -51,7 +51,7 @@ uv run python -c "from genmodel.gpa import gpa; from genmodel.fgan import train_
 A short GPA run on the moons dataset, with a video:
 
 ```bash
-uv run python scripts/run_all.py --datasets moons --L-values 1 2 5 --L-steps 100 50 50
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 2 5 --L-steps 50 50 50
 ```
 
 This prints the progress, the training time and the final distance to the data, and saves the video to `assets/moons/L1-2-5_steps100-50-50.mp4`. Open it with `open assets/moons/L1-2-5_steps100-50-50.mp4` (macOS) or any video player.
@@ -78,7 +78,7 @@ All current datasets are 2D and need no download. Each one is a function in `src
 Choose one or more with `--datasets`:
 
 ```bash
-uv run python scripts/run_all.py --datasets spiral eight_gaussians --L-values 1 2 5 --L-steps 100 50 50
+uv run python scripts/run_all.py --datasets spiral eight_gaussians --L-values 1 2 5 --L-steps 50 50 50
 ```
 
 **Adding your own dataset:** add a function to `datasets.py`. It must take `n` and return a float32 tensor of shape `(n, 2)`.
@@ -89,7 +89,7 @@ def my_dataset(n, some_param=1.0):
     return ...   # tensor of shape (n, 2)
 ```
 
-It then appears in `--datasets` automatically.
+It then appears in `--datasets` automatically. 
 
 ## Running GPA
 
@@ -97,10 +97,10 @@ GPA is the default model. You define the **L schedule** with two lists of the sa
 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians \
-    --L-values 1 2 5 --L-steps 100 50 50
+    --L-values 1 2 5 --L-steps 50 50 50
 ```
 
-This uses L=1 for 100 steps, L=2 for 50 steps and L=5 for 50 steps. The step size in each stage is `dt = dt0 / L`, where `dt0` (default 0.25) is the step size at `L = 1`. The largest possible movement per step, `dt × L`, is therefore `dt0` in every stage.
+This uses L=1 for 50 steps, L=2 for 50 steps and L=5 for 50 steps. The step size in each stage is `dt = dt0 / L`, where `dt0` (default 0.25) is the step size at `L = 1`. The largest possible movement per step, `dt × L`, is therefore `dt0` in every stage.
 
 A constant `L` is a single stage:
 
@@ -108,39 +108,27 @@ A constant `L` is a single stage:
 uv run python scripts/run_all.py --datasets moons --L-values 5 --L-steps 200
 ```
 
-Other useful options:
-
-```bash
-# start the particles away from the data (Gaussian centered at (4, 4))
---prior-mean 4 4
-
-# use the second-order Heun solver instead of Euler
---solver heun
-
-# change the step size at L = 1
---dt0 0.1
-
-# number of particles
---M 2000
-```
-
 ## Running the f-GAN
 
-Add `--model fgan`. The discriminator has the same architecture and the same Lipschitz projection as the GPA critic. The generator is residual (`G(z) = z + net(z)`, with the last layer initialised to zero), so training starts exactly at the prior, as GPA does.
+To run the f-GAN one of the following loss must be chosen:
 
-```bash
-# with an L schedule: one stage = L and a number of generator steps
-uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
-    --L-values 1 20 --L-steps 1500 1500
+- Original GAN loss: --divergence gan --no-projection
+- KL: -- divergence kl --no-projection
+- (KL,Lipschitz-L): --divergence KL --L (value of L)
 
-# constant L
-uv run python scripts/run_all.py --model fgan --datasets moons --divergence kl \
+When using (KL,Lipschitz-L)-divergence, one can also choose adaptive L. Here are some exmaples:
+
+# Gan loss
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan \
+    --no-projection --n-steps 3000
+
+# Constant L
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
     --L 5 --n-steps 3000
 
-# no Lipschitz constraint
-uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
-    --no-projection --n-steps 3000
-```
+# With an L schedule: one stage = L and a number of generator steps
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
+    --L-values 1 20 --L-steps 1500 1500
 
 Notes:
 
