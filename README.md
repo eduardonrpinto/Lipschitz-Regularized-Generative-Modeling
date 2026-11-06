@@ -213,10 +213,6 @@ All experiments use the `eight_gaussians` dataset.
       <img src="docs/images/fig_5.png" width="100%" alt="Figure 5"><br>
       <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
     </td>
-    <td align="center" width="33%">
-      <img src="docs/images/fig6.gif" width="100%" alt="Figure 6"><br>
-      <sub><b>Figure 6.</b> Caption for the sixth image.</sub>
-    </td>
   </tr>
 </table>
 
@@ -225,7 +221,7 @@ All experiments use the `eight_gaussians` dataset.
 **Figure 1** (_method and short description_)
 
 ```bash
-uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan  --prior-mean 4 4 --no-projection -n-steps 12000
+ uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan  --prior-mean 4 4 --no-projection -n-steps 12000
 ```
 
 **Figure 2** (_method and short description_)
@@ -252,11 +248,6 @@ uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --diver
 # command for figure 5
 ```
 
-**Figure 6** (_method and short description_)
-
-```bash
-# command for figure 6
-```
 
 ### Comments
 
