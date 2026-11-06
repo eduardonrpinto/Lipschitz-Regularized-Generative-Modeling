@@ -58,12 +58,12 @@ A short GPA run on the moons dataset, with a video:
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 2 5 --L-steps 50 50 50
 ```
 
-This prints the progress, the training time and the final distance to the data, and saves the video to `assets/moons/L1-2-5_steps100-50-50.mp4`. Open it with `open assets/moons/L1-2-5_steps100-50-50.mp4` (macOS) or any video player.
+This prints the progress, the training time and the final distance to the data, and saves the video to `assets/eight_gaussians/L1-2-5_steps100-50-50.mp4`. Open it with `open assets/eight_gaussians/L1-2-5_steps100-50-50.mp4` (macOS) or any video player.
 
-A short $f$-GAN run on the same data:
+A short f-GAN run on the same data:
 
 ```bash
-uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan \
     --L-values 1 5 --L-steps 1500 1500
 ```
 
@@ -109,7 +109,7 @@ This uses L=1 for 50 steps, L=2 for 50 steps and L=5 for 50 steps. The step size
 A constant `L` is a single stage:
 
 ```bash
-uv run python scripts/run_all.py --datasets moons --L-values 5 --L-steps 200
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 5 --L-steps 200
 ```
 
 ## Running the f-GAN
@@ -118,7 +118,7 @@ To run the $f$-GAN one of the following loss must be chosen:
 
 - Original GAN loss: `--divergence gan --no-projection`
 - KL: `-- divergence kl --no-projection`
-- (KL,$Lip_L$): `--divergence KL --L (value of L)`
+- (KL,Lip_L): `--divergence KL --L (value of L)`
 
 When using (KL,Lip_L)-divergence, one can also choose adaptive L. Here are some exmaples:
 
@@ -177,17 +177,6 @@ If your copy of `run_all.py` also has `--lr-g` and `--lr-d`, they set the f-GAN 
 - `assets/<dataset>/<run name>.mp4`: video of the particles (blue) moving onto samples of the data (gray). The title shows the step and the current `L`.
 - `assets/results.csv`: one row per run with the dataset, model, schedule, solver, sliced Wasserstein distance (`sw`), the `floor`, and the training time.
 - The terminal shows the **divergence estimate** every `--print-every` steps. It tracks the stage of training and is noisy, so look at the trend.
-
-### How to read the numbers
-
-```
-training time = 42.3 s
-SW distance = 0.2310   (data vs fresh data: 0.1149)
-```
-
-- **`SW distance`** is the sliced Wasserstein distance between the final particles and a fresh sample from the dataset. Smaller is better.
-- **`data vs fresh data`** (the `floor`) is the same distance between two independent samples of the data itself. It is the best score any model can realistically reach, because of sampling noise.
-- Judge a run by `SW distance / floor`. A value near 1 means the particles are indistinguishable from the data in this metric.
 
 ## Experiments and results
 
@@ -254,50 +243,10 @@ GPA with L=1 achieves a much finer learning of the target distribution and also 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 100 --L-steps 3000 --prior-mean 4 4
 ```
-GPA with L=100 collapses onto the modes which are nearest from the prior distribution, suggesting that L=100 provides a too strong discrimination signal which makes all the particles collapse immediately onto the closest mode instead of exploring the space. We recall that with L=100, (KL,$\text{Lip_100}$) is closer to KL, which is known for its tendency for mode collpase. 
-
-### Comments
+GPA with L=100 collapses onto the modes which are nearest from the prior distribution, suggesting that L=100 provides a too strong discrimination signal which makes all the particles collapse immediately onto the closest mode instead of exploring the space. We recall that with L=100, (KL,Lip_100) is closer to KL, which is known for its tendency for mode collpase. 
 
 
 
-| Figure | Number of steps | SW distance | SW / floor | Training time |
-|---|---|---|---|---|
-| 1 | 12000 | | | |
-| 2 | 12000  | | | |
-| 3 | 12000| | | |
-| 4 | 3000| | | |
-| 5 | 3000| | | |
-| 6 | 3000| | | |
-| 7 | 3000| | | |
-
-
-
-
-
-
-
-
-
-
-## Measuring computational cost
-
-A GPA step and an f-GAN step do different amounts of work, so compare **quality against wall-clock time**, not step counts.
-
-With the default settings (`M = N = 1000`, `m_max = 20`, `k_disc = 5`):
-
-| | GPA outer step | f-GAN step |
-|---|---|---|
-| Critic or discriminator updates | 20 | 5 |
-| Generator updates | 0 | 1 |
-| Input-gradient evaluations on the particles | 1 (Euler) or 2 (Heun) | 0 |
-| `project()` calls | 20 | 5 |
-| Networks trained | 1 | 2 |
-
-Every run prints its training time. The time covers training only, not the video or the evaluation.
-
-For a fair comparison, use the same machine, dataset, `M`, `N` and architecture for both methods, run several seeds, tune both methods with the same effort, and report the time to reach a target such as `SW ≤ 2 × floor`.
-
-_Add your measured table here: hardware, number of seeds, and the median time and final `SW / floor` per method and dataset._
 
 ## Repository structure
 
