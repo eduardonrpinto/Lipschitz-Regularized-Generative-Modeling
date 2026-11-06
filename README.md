@@ -31,8 +31,8 @@ The hypothesis is the following: during training of an algorithm like GAN or GPA
 You need [uv](https://docs.astral.sh/uv/) and git.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/my-genmodel.git
-cd my-genmodel
+git clone clone https://github.com/eduardonrpinto/Lipschitz-Regularized-Generative-Modeling.git
+cd  Lipschitz-Regularized-Generative-Modeling
 uv sync
 ```
 
