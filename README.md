@@ -196,21 +196,21 @@ All experiments use the `eight_gaussians` dataset.
       <sub><b>Figure 1.</b> Caption for the first image.</sub>
     </td>
     <td align="center" width="33%">
-      <img src="docs/images/fig2.gif" width="100%" alt="Figure 2"><br>
+      <img src="docs/images/fig_2.png" width="100%" alt="Figure 2"><br>
       <sub><b>Figure 2.</b> Caption for the second image.</sub>
     </td>
     <td align="center" width="33%">
-      <img src="docs/images/fig3.gif" width="100%" alt="Figure 3"><br>
+      <img src="docs/images/fig_3.png" width="100%" alt="Figure 3"><br>
       <sub><b>Figure 3.</b> Caption for the third image.</sub>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <img src="docs/images/fig4.gif" width="100%" alt="Figure 4"><br>
+      <img src="docs/images/fig_4.png" width="100%" alt="Figure 4"><br>
       <sub><b>Figure 4.</b> Caption for the fourth image.</sub>
     </td>
     <td align="center" width="33%">
-      <img src="docs/images/fig5.gif" width="100%" alt="Figure 5"><br>
+      <img src="docs/images/fig_5.png" width="100%" alt="Figure 5"><br>
       <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
     </td>
     <td align="center" width="33%">
