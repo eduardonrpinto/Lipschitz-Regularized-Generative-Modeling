@@ -225,8 +225,7 @@ All experiments use the `eight_gaussians` dataset.
 **Figure 1** (_method and short description_)
 
 ```bash
-uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
-    --L-values 1 2 5 --L-steps 100 50 50
+uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan  --prior-mean 4 4 --no-projection -n-steps 12000
 ```
 
 **Figure 2** (_method and short description_)
