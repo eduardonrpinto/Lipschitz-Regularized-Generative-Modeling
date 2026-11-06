@@ -247,7 +247,7 @@ GPA with L=100 collapses onto the modes which are nearest from the prior distrib
 ## Repository structure
 
 ```
-my-genmodel/
+Lipschitz-Regularized-Generative-Modeling/
 ├── pyproject.toml, uv.lock       # dependencies (exact versions in the lockfile)
 ├── README.md
 ├── preprint.pdf
