@@ -187,79 +187,12 @@ SW distance = 0.2310   (data vs fresh data: 0.1149)
 
 ## Experiments and results
 
-> Fill in this section with your own runs. For each experiment: the command, the figure, the numbers, and a short comment. Keep one figure per experiment and a sentence on what it shows.
-
-### How to add images and videos to this README
-
-GitHub displays **GIFs** inline from files in the repository, but it does not play MP4 files that are committed to the repository. There are two options:
-
-1. **GIF in the repository.** Save a short, small GIF in `docs/images/` and reference it with `![caption](docs/images/name.gif)`. Keep each file under a few MB.
-2. **MP4 uploaded to GitHub.** Edit the README in the GitHub web editor, drag the MP4 into the text box, and GitHub inserts a link that plays inline.
-
-The `assets/<dataset>/` folders are ignored by git. Copy the files you want to show into `docs/images/` and commit them there.
-
-### Experiment 1: GAN on eight_gaussians
-
-**Command**
-
-```bash
-uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
-    --L-values 1 2 5 --L-steps 100 50 50
-```
-
-<!-- ![GPA on eight_gaussians](docs/images/gpa_eight_gaussians.gif) -->
-
-| SW distance | floor | Training time |
-|---|---|---|
-| _fill in_ | _fill in_ | _fill in_ |
-
-**Comments:** _What do the particles do? Do they cover all eight modes? Does the divergence estimate decrease?_
-
-### Experiment 2: effect of the L schedule
-
-Same dataset, three schedules: constant `L = 1`, constant `L = 20`, and a ramp `1 → 20`.
-
-<!-- ![L schedules](docs/images/l_schedules.png) -->
-
-| Schedule | SW distance | SW / floor | Training time |
-|---|---|---|---|
-| `--L-values 1 --L-steps 200` | | | |
-| `--L-values 20 --L-steps 200` | | | |
-| `--L-values 1 20 --L-steps 100 100` | | | |
-
-**Comments:** _Which schedule works best, and why do you think so? A critic with a small `L` cannot represent the gradient needed to move the particles, so it gives a weak signal._
-
-### Experiment 3: f-GAN versus GPA
-
-<!-- ![GPA vs f-GAN](docs/images/gpa_vs_fgan.png) -->
-
-| Dataset | Method | Settings | SW / floor | Training time |
-|---|---|---|---|---|
-| | GPA | | | |
-| | f-GAN | | | |
-
-**Comments:** _State how many seeds you used, how each method was tuned, and what the result does and does not show._
-
-### Experiment 4: effect of the Lipschitz constraint in the f-GAN
-
-Left: `L = 1` for 3000 steps. Right: `L = 1` for 1500 steps, then `L = 20` for 1500 steps.
-
-<!-- ![f-GAN L=1 vs ramp](docs/images/fgan_l_comparison.png) -->
-
-**Comments:** _..._
-
-### Add your own experiments
-
-Copy the structure above: command, figure, numbers, comments.
-
-## Experiments and results
-
 All experiments use the `eight_gaussians` dataset.
 
 <table>
   <tr>
     <td align="center" width="33%">
-      <img src="docs/images/fig1.gif" width="100%" alt="Figure 1"><br>
+      <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
       <sub><b>Figure 1.</b> Caption for the first image.</sub>
     </td>
     <td align="center" width="33%">
@@ -280,7 +213,10 @@ All experiments use the `eight_gaussians` dataset.
       <img src="docs/images/fig5.gif" width="100%" alt="Figure 5"><br>
       <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
     </td>
-    <td></td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig6.gif" width="100%" alt="Figure 6"><br>
+      <sub><b>Figure 6.</b> Caption for the sixth image.</sub>
+    </td>
   </tr>
 </table>
 
@@ -317,18 +253,24 @@ uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
 # command for figure 5
 ```
 
+**Figure 6** (_method and short description_)
+
+```bash
+# command for figure 6
+```
+
 ### Comments
 
-_Write your comments on the five figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
+_Write your comments on the six figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
 
-| Figure | Method and settings | SW distance | SW / floor | Training time |
+| Figure | Number of steps | SW distance | SW / floor | Training time |
 |---|---|---|---|---|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
 | 4 | | | | |
 | 5 | | | | |
-
+| 6 | | | | |
 
 
 
