@@ -1,11 +1,11 @@
 # Lipschigz Reularized Generative Modeling
 
-This repository consists of an investigation onto the role of (KL,Lipshitz-L)-divergences (see [^3]) in generative modeling. It contains an implementation of an f-GAN and a GPA, a generative partcle algorithm presented in [^2], and inicial experiments with these two models to try to address the following questions:
+This repository consists of an investigation onto the role of (KL,$Lip_L$)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
 - Can GPA be an alternative to GANs and $f$-GANs that provides more stable training and more effective learning?
 - What role can the Lipschitz regularization parameter L play in algorithms such as $f$-GANs and GPA? 
 
-The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of $L$ are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (\text{KL} behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lipshitz-L)-divergences. Some preliminary results on this topci can be found in: 
+The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of $L$ are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,$Lip_L$)-divergences. Some preliminary results on this topci can be found in: 
 
 **Preprint (draft, not peer reviewed):** [Asymptotic behavior of reuglarized discriminators in generative modeling](Asymptotic_behavior_of_regularized_discriminators_in_generative_modeling_and-beyond.pdf), version of November 2026.
 
@@ -60,7 +60,7 @@ uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 2 5 --L
 
 This prints the progress, the training time and the final distance to the data, and saves the video to `assets/moons/L1-2-5_steps100-50-50.mp4`. Open it with `open assets/moons/L1-2-5_steps100-50-50.mp4` (macOS) or any video player.
 
-A short f-GAN run on the same data:
+A short $f$-GAN run on the same data:
 
 ```bash
 uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
@@ -114,13 +114,13 @@ uv run python scripts/run_all.py --datasets moons --L-values 5 --L-steps 200
 
 ## Running the f-GAN
 
-To run the f-GAN one of the following loss must be chosen:
+To run the $f$-GAN one of the following loss must be chosen:
 
 - Original GAN loss: `--divergence gan --no-projection`
 - KL: `-- divergence kl --no-projection`
-- (KL,Lipschitz-L): `--divergence KL --L (value of L)`
+- (KL,$Lip_L$): `--divergence KL --L (value of L)`
 
-When using (KL,Lipschitz-L)-divergence, one can also choose adaptive L. Here are some exmaples:
+When using (KL,$Lip_L$)-divergence, one can also choose adaptive L. Here are some exmaples:
 
 ```bash
 #Gan loss
@@ -143,7 +143,7 @@ uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --diver
 > **Notes:**
 >
 > - `--divergence` is `kl` or `gan`. Add more in the `DIVERGENCES` dictionary in `src/genmodel/fgan.py`.
-> - One f-GAN step is `k_disc` discriminator updates followed by one generator update, so f-GANs need many more steps than GPA (thousands, not hundreds).
+> - One f-GAN step is `k_disc` discriminator updates followed by one generator update, so $f$-GANs need many more steps than GPA (thousands, not hundreds).
 > - If you give `--L-values` and `--L-steps`, `--n-steps` and `--L` are ignored.
 > - With `--no-projection`, `L` has no effect. Prefer `--divergence gan` in that case, since KL can overflow without a constraint.
 
@@ -320,4 +320,8 @@ my-genmodel/
 
 ## Reference
 
-[^1]: S. Nowozin et al., *f-GAN*, NeurIPS 2016. https://arxiv.org/abs/1606.00709
+
+[^1] Birrell et al., *$(f,Γ)$-Divergences: Interpolating between f-Divergences and Integral Probability Metrics*, https://arxiv.org/abs/2011.05953
+[^2]: S. Nowozin et al., *f-GAN*, https://arxiv.org/abs/1606.00709
+[^3]: H. Gu et al., *Lipschitz-regularized gradient flows and generative particle algorithms for high-dimensional scarce data*, https://arxiv.org/abs/2210.17230
+
