@@ -1,4 +1,4 @@
-# Lipschigz Reularized Generative Modeling
+# Lipschitz Reularized Generative Modeling
 
 This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
@@ -174,7 +174,7 @@ Run `uv run python scripts/run_all.py --help` for the full list.
 
 - `assets/<dataset>/<run name>.mp4`: video of the particles (blue) moving onto samples of the data (gray). The title shows the step and the current `L`.
 - `assets/results.csv`: one row per run with the dataset, model, schedule, solver, sliced Wasserstein distance (`sw`), the `floor`, and the training time.
-- The terminal shows the **divergence estimate** every `--print-every` steps. It tracks the stage of training and is noisy, so look at the trend.
+- The terminal shows the divergence estimate every `--print-every` steps. It tracks the stage of training and is noisy, so look at the trend.
 
 ## Experiments and results
 
