@@ -4,6 +4,9 @@ This repository contains a Python implementation of **GPA**, a particle-transpor
 
 - **GPA**: particles start from a prior (a Gaussian) and are moved toward the data along the gradient of an L-Lipschitz critic. The critic is trained to estimate an f-divergence between the particles and the data, and the Lipschitz constant `L` follows a piecewise-constant schedule that you define. The step size is `dt = dt0 / L`.
 - **f-GAN**: a generator network is trained against a discriminator with the same architecture and the same Lipschitz projection, so the two methods can be compared fairly. The `L` schedule works the same way as in GPA.
+The f-GAN baseline follows Nowozin et al.[^1], with the same Lipschitz projection as GPA.
+
+[^1]: S. Nowozin et al., *f-GAN*, NeurIPS 2016. https://arxiv.org/abs/1606.00709
 
 <!-- Put your best result here, for example a GIF of GPA on eight_gaussians. -->
 <!-- ![hero](docs/images/hero.gif) -->
@@ -187,7 +190,7 @@ SW distance = 0.2310   (data vs fresh data: 0.1149)
 
 ## Experiments and results
 
-All experiments use the `eight_gaussians` dataset.
+All experiments use the `eight_gaussians` dataset. For the first five experiments, the prio distribution is a gaussian with mean (4,4) and standard deviation 2. As for the last two experiments, it is a gaussian with mean (8,8) and standard deviation 2. Below we provide the commands to reproduce the experiments and comments on the results.
 
 <table>
   <tr>
@@ -218,34 +221,34 @@ All experiments use the `eight_gaussians` dataset.
 
 ### How to reproduce each figure
 
-**Figure 1** (_method and short description_)
+**Figure 1** 
 
 ```bash
  uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan  --prior-mean 4 4 --no-projection -n-steps 12000
 ```
 
-**Figure 2** (_method and short description_)
+**Figure 2** 
 
 ```bash
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 1 --L-steps 12000
 ```
 We observe that the f-GAN with (KL,Lip-1)-divergence learns the whole data landscape better than the conventional GAN, but still fails to capture the eight distinct gaussians
 
-**Figure 3** (_method and short description_)
+**Figure 3** 
 
 ```bash
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 20 --L-steps 12000
 ```
 With (KL,Lip-20)-GAN we observe improvements in comparison to the (KL,Lip-20)-GAN with the same number of training steps, altough far from a satisfatory learning of the distributions
 
-**Figure 4** (_method and short description_)
+**Figure 4** 
 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 --L-steps 3000 --prior-mean 4 4
 ```
 GPA with L=1 achieves a much finer learning of the target distribution and also more stable training. This could have to do with the fact that GPA only has to train a neural network for learning the discriminator and not two neural networks like GAN. 
 
-**Figure 5** (_method and short description_)
+**Figure 5** 
 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 100 --L-steps 3000 --prior-mean 4 4
@@ -258,12 +261,13 @@ GPA with L=100 collapses onto the modes which are nearest from the prior distrib
 
 | Figure | Number of steps | SW distance | SW / floor | Training time |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-| 6 | | | | |
+| 1 | 12000 | | | |
+| 2 | 12000  | | | |
+| 3 | 12000| | | |
+| 4 | 3000| | | |
+| 5 | 3000| | | |
+| 6 | 3000| | | |
+| 7 | 3000| | | |
 
 
 
@@ -313,17 +317,6 @@ my-genmodel/
 └── docs/images/                  # figures shown in this README
 ```
 
-## Known limitations
+## Reference
 
-- Only 2D vector datasets are supported so far. Image datasets (such as MNIST) need convolutional critics with a correct Lipschitz projection, which is not implemented yet.
-- The Lipschitz projection uses an SVD on every layer after every update, which is the main cost of both methods. Power iteration would be faster.
-- f-GAN results are sensitive to `L`, the learning rates and `k_disc`. Compare the two methods with several seeds.
-- There is no automated test suite yet.
-
-## License
-
-_Add a license (for example MIT) and a `LICENSE` file._
-
-## Citation
-
-_If this accompanies a paper, add the reference here._
+[^1]: S. Nowozin et al., *f-GAN*, NeurIPS 2016. https://arxiv.org/abs/1606.00709
