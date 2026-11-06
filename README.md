@@ -1,4 +1,4 @@
-# genmodel: GPA and f-GAN with Lipschitz-constrained critics
+# Lipschigz Reularized Generative Modeling
 
 This repository contains a Python implementation of **GPA**, a particle-transport generative algorithm, together with an **f-GAN** baseline, and the code to compare them on 2D datasets.
 
