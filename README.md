@@ -192,7 +192,7 @@ All experiments use the `eight_gaussians` dataset.
 <table>
   <tr>
     <td align="center" width="33%">
-      <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
+      <img src="docs/images/fig1.gif" width="100%" alt="Figure 1"><br>
       <sub><b>Figure 1.</b> Caption for the first image.</sub>
     </td>
     <td align="center" width="33%">
