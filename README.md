@@ -118,15 +118,15 @@ To run the f-GAN one of the following loss must be chosen:
 
 When using (KL,Lipschitz-L)-divergence, one can also choose adaptive L. Here are some exmaples:
 
-# Gan loss
+#Gan loss
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan \
     --no-projection --n-steps 3000
 
-# Constant L
+#Constant L
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
     --L 5 --n-steps 3000
 
-# With an L schedule: one stage = L and a number of generator steps
+#With an L schedule: one stage = L and a number of generator steps
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
     --L-values 1 20 --L-steps 1500 1500
 
