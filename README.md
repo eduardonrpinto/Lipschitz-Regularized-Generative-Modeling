@@ -1,0 +1,313 @@
+# genmodel: GPA and f-GAN with Lipschitz-constrained critics
+
+This repository contains a Python implementation of **GPA**, a particle-transport generative algorithm, together with an **f-GAN** baseline, and the code to compare them on 2D datasets.
+
+- **GPA**: particles start from a prior (a Gaussian) and are moved toward the data along the gradient of an L-Lipschitz critic. The critic is trained to estimate an f-divergence between the particles and the data, and the Lipschitz constant `L` follows a piecewise-constant schedule that you define. The step size is `dt = dt0 / L`.
+- **f-GAN**: a generator network is trained against a discriminator with the same architecture and the same Lipschitz projection, so the two methods can be compared fairly. The `L` schedule works the same way as in GPA.
+
+<!-- Put your best result here, for example a GIF of GPA on eight_gaussians. -->
+<!-- ![hero](docs/images/hero.gif) -->
+
+## Contents
+
+1. [Installation](#installation)
+2. [Quickstart](#quickstart)
+3. [Datasets](#datasets)
+4. [Running GPA](#running-gpa)
+5. [Running the f-GAN](#running-the-f-gan)
+6. [Command-line reference](#command-line-reference)
+7. [Output files](#output-files)
+8. [Experiments and results](#experiments-and-results)
+9. [Measuring computational cost](#measuring-computational-cost)
+10. [Repository structure](#repository-structure)
+11. [Known limitations](#known-limitations)
+
+## Installation
+
+You need [uv](https://docs.astral.sh/uv/) and git.
+
+```bash
+git clone https://github.com/YOUR_USERNAME/my-genmodel.git
+cd my-genmodel
+uv sync
+```
+
+`uv sync` installs the exact versions in `uv.lock`, so everyone gets the same environment.
+
+Check that the install works:
+
+```bash
+uv run python -c "from genmodel.gpa import gpa; from genmodel.fgan import train_fgan; print('ok')"
+```
+
+**Tested with:** _(fill in: OS, CPU, Python version, torch version)_.
+
+**Intel Macs:** recent PyTorch releases no longer ship Intel macOS builds. If installation fails, pin an older release: `uv add "torch==2.2.2" "numpy<2"`.
+
+**Videos:** MP4 output uses the ffmpeg binary bundled with the `imageio-ffmpeg` package, so you do not need to install ffmpeg yourself.
+
+## Quickstart
+
+A short GPA run on the moons dataset, with a video:
+
+```bash
+uv run python scripts/run_all.py --datasets moons --L-values 1 2 5 --L-steps 100 50 50
+```
+
+This prints the progress, the training time and the final distance to the data, and saves the video to `assets/moons/L1-2-5_steps100-50-50.mp4`. Open it with `open assets/moons/L1-2-5_steps100-50-50.mp4` (macOS) or any video player.
+
+A short f-GAN run on the same data:
+
+```bash
+uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
+    --L-values 1 5 --L-steps 1500 1500
+```
+
+## Datasets
+
+All current datasets are 2D and need no download. Each one is a function in `src/genmodel/datasets.py`, registered under a name.
+
+| Name | Description |
+|---|---|
+| `moons` | Two interlocking half circles (scikit-learn) |
+| `circles` | Two concentric rings (scikit-learn) |
+| `spiral` | A noisy spiral arm |
+| `eight_gaussians` | Eight small Gaussians on a ring of radius 2 |
+| `gaussian_shift` | A unit Gaussian centered at (2, 0) |
+
+Choose one or more with `--datasets`:
+
+```bash
+uv run python scripts/run_all.py --datasets spiral eight_gaussians --L-values 1 2 5 --L-steps 100 50 50
+```
+
+**Adding your own dataset:** add a function to `datasets.py`. It must take `n` and return a float32 tensor of shape `(n, 2)`.
+
+```python
+@register("my_dataset")
+def my_dataset(n, some_param=1.0):
+    return ...   # tensor of shape (n, 2)
+```
+
+It then appears in `--datasets` automatically.
+
+## Running GPA
+
+GPA is the default model. You define the **L schedule** with two lists of the same length: the value of `L` in each stage, and the number of outer steps spent in that stage.
+
+```bash
+uv run python scripts/run_all.py --datasets eight_gaussians \
+    --L-values 1 2 5 --L-steps 100 50 50
+```
+
+This uses L=1 for 100 steps, L=2 for 50 steps and L=5 for 50 steps. The step size in each stage is `dt = dt0 / L`, where `dt0` (default 0.25) is the step size at `L = 1`. The largest possible movement per step, `dt × L`, is therefore `dt0` in every stage.
+
+A constant `L` is a single stage:
+
+```bash
+uv run python scripts/run_all.py --datasets moons --L-values 5 --L-steps 200
+```
+
+Other useful options:
+
+```bash
+# start the particles away from the data (Gaussian centered at (4, 4))
+--prior-mean 4 4
+
+# use the second-order Heun solver instead of Euler
+--solver heun
+
+# change the step size at L = 1
+--dt0 0.1
+
+# number of particles
+--M 2000
+```
+
+## Running the f-GAN
+
+Add `--model fgan`. The discriminator has the same architecture and the same Lipschitz projection as the GPA critic. The generator is residual (`G(z) = z + net(z)`, with the last layer initialised to zero), so training starts exactly at the prior, as GPA does.
+
+```bash
+# with an L schedule: one stage = L and a number of generator steps
+uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
+    --L-values 1 20 --L-steps 1500 1500
+
+# constant L
+uv run python scripts/run_all.py --model fgan --datasets moons --divergence kl \
+    --L 5 --n-steps 3000
+
+# no Lipschitz constraint
+uv run python scripts/run_all.py --model fgan --datasets moons --divergence gan \
+    --no-projection --n-steps 3000
+```
+
+Notes:
+
+- `--divergence` is `kl` or `gan`. Add more in the `DIVERGENCES` dictionary in `src/genmodel/fgan.py`.
+- One f-GAN step is `k_disc` discriminator updates followed by one generator update, so f-GANs need many more steps than GPA (thousands, not hundreds).
+- If you give `--L-values` and `--L-steps`, `--n-steps` and `--L` are ignored.
+- With `--no-projection`, `L` has no effect. Prefer `--divergence gan` in that case, since KL can overflow without a constraint.
+
+## Command-line reference
+
+Run `uv run python scripts/run_all.py --help` for the full list.
+
+| Flag | Applies to | Meaning | Default |
+|---|---|---|---|
+| `--model` | both | `gpa` or `fgan` | `gpa` |
+| `--datasets` | both | One or more dataset names | all |
+| `--L-values` | both | `L` of each stage | none |
+| `--L-steps` | both | Steps in each stage | none |
+| `--solver` | GPA | `euler` or `heun` | `euler` |
+| `--dt0` | GPA | Step size at `L = 1`; `dt = dt0 / L` | 0.25 |
+| `--divergence` | f-GAN | `kl` or `gan` | `kl` |
+| `--n-steps` | f-GAN | Generator steps when no schedule is given | 200 |
+| `--L` | f-GAN | Constant `L` when no schedule is given | 1.0 |
+| `--no-projection` | f-GAN | Unconstrained discriminator | off |
+| `--prior-mean` | both | Mean of the Gaussian prior, one number per dimension | 0 |
+| `--M` | both | Number of particles | 1000 |
+| `--seed` | both | Random seed | 0 |
+| `--frame-every` | both | One video frame every this many steps | 25 |
+| `--print-every` | both | Print the divergence estimate every this many steps | 25 |
+| `--no-video` | both | Skip the video and only print and save numbers | off |
+
+If your copy of `run_all.py` also has `--lr-g` and `--lr-d`, they set the f-GAN learning rates.
+
+## Output files
+
+- `assets/<dataset>/<run name>.mp4`: video of the particles (blue) moving onto samples of the data (gray). The title shows the step and the current `L`.
+- `assets/results.csv`: one row per run with the dataset, model, schedule, solver, sliced Wasserstein distance (`sw`), the `floor`, and the training time.
+- The terminal shows the **divergence estimate** every `--print-every` steps. It tracks the stage of training and is noisy, so look at the trend.
+
+### How to read the numbers
+
+```
+training time = 42.3 s
+SW distance = 0.2310   (data vs fresh data: 0.1149)
+```
+
+- **`SW distance`** is the sliced Wasserstein distance between the final particles and a fresh sample from the dataset. Smaller is better.
+- **`data vs fresh data`** (the `floor`) is the same distance between two independent samples of the data itself. It is the best score any model can realistically reach, because of sampling noise.
+- Judge a run by `SW distance / floor`. A value near 1 means the particles are indistinguishable from the data in this metric.
+
+## Experiments and results
+
+> Fill in this section with your own runs. For each experiment: the command, the figure, the numbers, and a short comment. Keep one figure per experiment and a sentence on what it shows.
+
+### How to add images and videos to this README
+
+GitHub displays **GIFs** inline from files in the repository, but it does not play MP4 files that are committed to the repository. There are two options:
+
+1. **GIF in the repository.** Save a short, small GIF in `docs/images/` and reference it with `![caption](docs/images/name.gif)`. Keep each file under a few MB.
+2. **MP4 uploaded to GitHub.** Edit the README in the GitHub web editor, drag the MP4 into the text box, and GitHub inserts a link that plays inline.
+
+The `assets/<dataset>/` folders are ignored by git. Copy the files you want to show into `docs/images/` and commit them there.
+
+### Experiment 1: GPA on eight_gaussians
+
+**Command**
+
+```bash
+uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
+    --L-values 1 2 5 --L-steps 100 50 50
+```
+
+<!-- ![GPA on eight_gaussians](docs/images/gpa_eight_gaussians.gif) -->
+
+| SW distance | floor | Training time |
+|---|---|---|
+| _fill in_ | _fill in_ | _fill in_ |
+
+**Comments:** _What do the particles do? Do they cover all eight modes? Does the divergence estimate decrease?_
+
+### Experiment 2: effect of the L schedule
+
+Same dataset, three schedules: constant `L = 1`, constant `L = 20`, and a ramp `1 → 20`.
+
+<!-- ![L schedules](docs/images/l_schedules.png) -->
+
+| Schedule | SW distance | SW / floor | Training time |
+|---|---|---|---|
+| `--L-values 1 --L-steps 200` | | | |
+| `--L-values 20 --L-steps 200` | | | |
+| `--L-values 1 20 --L-steps 100 100` | | | |
+
+**Comments:** _Which schedule works best, and why do you think so? A critic with a small `L` cannot represent the gradient needed to move the particles, so it gives a weak signal._
+
+### Experiment 3: f-GAN versus GPA
+
+<!-- ![GPA vs f-GAN](docs/images/gpa_vs_fgan.png) -->
+
+| Dataset | Method | Settings | SW / floor | Training time |
+|---|---|---|---|---|
+| | GPA | | | |
+| | f-GAN | | | |
+
+**Comments:** _State how many seeds you used, how each method was tuned, and what the result does and does not show._
+
+### Experiment 4: effect of the Lipschitz constraint in the f-GAN
+
+Left: `L = 1` for 3000 steps. Right: `L = 1` for 1500 steps, then `L = 20` for 1500 steps.
+
+<!-- ![f-GAN L=1 vs ramp](docs/images/fgan_l_comparison.png) -->
+
+**Comments:** _..._
+
+### Add your own experiments
+
+Copy the structure above: command, figure, numbers, comments.
+
+## Measuring computational cost
+
+A GPA step and an f-GAN step do different amounts of work, so compare **quality against wall-clock time**, not step counts.
+
+With the default settings (`M = N = 1000`, `m_max = 20`, `k_disc = 5`):
+
+| | GPA outer step | f-GAN step |
+|---|---|---|
+| Critic or discriminator updates | 20 | 5 |
+| Generator updates | 0 | 1 |
+| Input-gradient evaluations on the particles | 1 (Euler) or 2 (Heun) | 0 |
+| `project()` calls | 20 | 5 |
+| Networks trained | 1 | 2 |
+
+Every run prints its training time. The time covers training only, not the video or the evaluation.
+
+For a fair comparison, use the same machine, dataset, `M`, `N` and architecture for both methods, run several seeds, tune both methods with the same effort, and report the time to reach a target such as `SW ≤ 2 × floor`.
+
+_Add your measured table here: hardware, number of seeds, and the median time and final `SW / floor` per method and dataset._
+
+## Repository structure
+
+```
+my-genmodel/
+├── pyproject.toml, uv.lock       # dependencies (exact versions in the lockfile)
+├── README.md
+├── src/genmodel/
+│   ├── gpa.py                    # GPA algorithm, Lipschitz critic, L schedule, ODE solvers
+│   ├── fgan.py                   # f-GAN: generator, discriminator, divergences, training loop
+│   ├── datasets.py               # dataset registry
+│   ├── experiments.py            # run_experiment: runs either model on a dataset
+│   ├── metrics.py                # sliced Wasserstein distance
+│   └── viz.py                    # particle videos
+├── scripts/
+│   └── run_all.py                # command-line entry point
+├── assets/                       # generated videos and results.csv (ignored by git)
+└── docs/images/                  # figures shown in this README
+```
+
+## Known limitations
+
+- Only 2D vector datasets are supported so far. Image datasets (such as MNIST) need convolutional critics with a correct Lipschitz projection, which is not implemented yet.
+- The Lipschitz projection uses an SVD on every layer after every update, which is the main cost of both methods. Power iteration would be faster.
+- f-GAN results are sensitive to `L`, the learning rates and `k_disc`. Compare the two methods with several seeds.
+- There is no automated test suite yet.
+
+## License
+
+_Add a license (for example MIT) and a `LICENSE` file._
+
+## Citation
+
+_If this accompanies a paper, add the reference here._

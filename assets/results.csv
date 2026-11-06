@@ -1,0 +1,2 @@
+dataset,model,schedule,solver,sw,floor
+eight_gaussians,fgan,fgan_kl_L20_steps12000,euler,0.1685,0.1111

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+runs/
+data/
+*.pt
+assets/*/
+moons_preview.png
+.DS_Store
