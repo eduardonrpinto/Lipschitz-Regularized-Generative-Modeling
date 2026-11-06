@@ -186,30 +186,28 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
   <tr>
     <td align="center" width="33%">
       <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
-      <sub><b>Figure 1.</b> Caption for the first image.</sub>
+      <sub><b>Figure 1.</b> GAN, 12000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_2.png" width="100%" alt="Figure 2"><br>
-      <sub><b>Figure 2.</b> Caption for the second image.</sub>
+      <sub><b>Figure 2.</b> (KL,Lip-1)-GAN, 12000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_3.png" width="100%" alt="Figure 3"><br>
-      <sub><b>Figure 3.</b> Caption for the third image.</sub>
+      <sub><b>Figure 3.</b> (KL,Lip-20)-GAN, 12000 steps.</sub>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
       <img src="docs/images/fig_4.png" width="100%" alt="Figure 4"><br>
-      <sub><b>Figure 4.</b> Caption for the fourth image.</sub>
+      <sub><b>Figure 4.</b> GPA, L=1, 3000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_5.png" width="100%" alt="Figure 5"><br>
-      <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
+      <sub><b>Figure 5.</b> GPA, L=100, 3000 steps.</sub>
     </td>
   </tr>
 </table>
-
-### How to reproduce each figure
 
 **Figure 1** 
 
