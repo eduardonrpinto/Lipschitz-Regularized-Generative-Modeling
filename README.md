@@ -44,7 +44,7 @@ Check that the install works:
 uv run python -c "from genmodel.gpa import gpa; from genmodel.fgan import train_fgan; print('ok')"
 ```
 
-**Tested with:** _(fill in: OS, CPU, Python version, torch version)_.
+**Tested with:** _(fill in: macOS (Darwin) 15.4, Intel Core i5-1030NG7 @ 1.10 GHz, Python 3.9.7, PyTorch 2.2.2.
 
 **Intel Macs:** recent PyTorch releases no longer ship Intel macOS builds. If installation fails, pin an older release: `uv add "torch==2.2.2" "numpy<2"`.
 
