@@ -256,15 +256,6 @@ Copy the structure above: command, figure, numbers, comments.
 
 All experiments use the `eight_gaussians` dataset.
 
-### Experiment: _title of the experiment_
-
-**Command**
-
-```bash
-uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
-    --L-values 1 2 5 --L-steps 100 50 50
-```
-
 <table>
   <tr>
     <td align="center" width="33%">
@@ -289,16 +280,46 @@ uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
       <img src="docs/images/fig5.gif" width="100%" alt="Figure 5"><br>
       <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
     </td>
-    <td align="center" width="33%">
-      <img src="docs/images/fig6.gif" width="100%" alt="Figure 6"><br>
-      <sub><b>Figure 6.</b> Caption for the sixth image.</sub>
-    </td>
+    <td></td>
   </tr>
 </table>
 
-#### Comments
+### How to reproduce each figure
 
-_Write your comments on the six figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
+**Figure 1** (_method and short description_)
+
+```bash
+uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
+    --L-values 1 2 5 --L-steps 100 50 50
+```
+
+**Figure 2** (_method and short description_)
+
+```bash
+# command for figure 2
+```
+
+**Figure 3** (_method and short description_)
+
+```bash
+# command for figure 3
+```
+
+**Figure 4** (_method and short description_)
+
+```bash
+# command for figure 4
+```
+
+**Figure 5** (_method and short description_)
+
+```bash
+# command for figure 5
+```
+
+### Comments
+
+_Write your comments on the five figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
 
 | Figure | Method and settings | SW distance | SW / floor | Training time |
 |---|---|---|---|---|
@@ -307,7 +328,6 @@ _Write your comments on the six figures here. What do the particles do? Do they 
 | 3 | | | | |
 | 4 | | | | |
 | 5 | | | | |
-| 6 | | | | |
 
 
 
