@@ -2,8 +2,8 @@
 
 This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
-- Can GPA be an alternative to GANs and $f$-GANs that provides more stable training and more effective learning?
-- What role can the Lipschitz regularization parameter L play in algorithms such as $f$-GANs and GPA? 
+- Can GPA be an alternative to GANs and f-GANs that provides more stable training and more effective learning?
+- What role can the Lipschitz regularization parameter L play in algorithms such as f-GANs and GPA? 
 
 The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topci can be found in: 
 
@@ -44,7 +44,7 @@ Check that the install works:
 uv run python -c "from genmodel.gpa import gpa; from genmodel.fgan import train_fgan; print('ok')"
 ```
 
-**Tested with:** _(fill in: macOS (Darwin) 15.4, Intel Core i5-1030NG7 @ 1.10 GHz, Python 3.9.7, PyTorch 2.2.2.
+**Tested with:** macOS (Darwin) 15.4, Intel Core i5-1030NG7 @ 1.10 GHz, Python 3.9.7, PyTorch 2.2.2.
 
 **Intel Macs:** recent PyTorch releases no longer ship Intel macOS builds. If installation fails, pin an older release: `uv add "torch==2.2.2" "numpy<2"`.
 
@@ -169,8 +169,6 @@ Run `uv run python scripts/run_all.py --help` for the full list.
 | `--frame-every` | both | One video frame every this many steps | 25 |
 | `--print-every` | both | Print the divergence estimate every this many steps | 25 |
 | `--no-video` | both | Skip the video and only print and save numbers | off |
-
-If your copy of `run_all.py` also has `--lr-g` and `--lr-d`, they set the f-GAN learning rates.
 
 ## Output files
 
