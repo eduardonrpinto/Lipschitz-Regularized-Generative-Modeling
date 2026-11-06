@@ -112,30 +112,36 @@ uv run python scripts/run_all.py --datasets moons --L-values 5 --L-steps 200
 
 To run the f-GAN one of the following loss must be chosen:
 
-- Original GAN loss: --divergence gan --no-projection
-- KL: -- divergence kl --no-projection
-- (KL,Lipschitz-L): --divergence KL --L (value of L)
+- Original GAN loss: `--divergence gan --no-projection`
+- KL: `-- divergence kl --no-projection`
+- (KL,Lipschitz-L): `--divergence KL --L (value of L)`
 
 When using (KL,Lipschitz-L)-divergence, one can also choose adaptive L. Here are some exmaples:
 
+```bash
 #Gan loss
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan \
     --no-projection --n-steps 3000
+```
 
+```bash
 #Constant L
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
     --L 5 --n-steps 3000
+```
 
+```bash
 #With an L schedule: one stage = L and a number of generator steps
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl \
     --L-values 1 20 --L-steps 1500 1500
+```
 
-Notes:
-
-- `--divergence` is `kl` or `gan`. Add more in the `DIVERGENCES` dictionary in `src/genmodel/fgan.py`.
-- One f-GAN step is `k_disc` discriminator updates followed by one generator update, so f-GANs need many more steps than GPA (thousands, not hundreds).
-- If you give `--L-values` and `--L-steps`, `--n-steps` and `--L` are ignored.
-- With `--no-projection`, `L` has no effect. Prefer `--divergence gan` in that case, since KL can overflow without a constraint.
+> **Notes:**
+>
+> - `--divergence` is `kl` or `gan`. Add more in the `DIVERGENCES` dictionary in `src/genmodel/fgan.py`.
+> - One f-GAN step is `k_disc` discriminator updates followed by one generator update, so f-GANs need many more steps than GPA (thousands, not hundreds).
+> - If you give `--L-values` and `--L-steps`, `--n-steps` and `--L` are ignored.
+> - With `--no-projection`, `L` has no effect. Prefer `--divergence gan` in that case, since KL can overflow without a constraint.
 
 ## Command-line reference
 
@@ -192,7 +198,7 @@ GitHub displays **GIFs** inline from files in the repository, but it does not pl
 
 The `assets/<dataset>/` folders are ignored by git. Copy the files you want to show into `docs/images/` and commit them there.
 
-### Experiment 1: GPA on eight_gaussians
+### Experiment 1: GAN on eight_gaussians
 
 **Command**
 
@@ -245,6 +251,73 @@ Left: `L = 1` for 3000 steps. Right: `L = 1` for 1500 steps, then `L = 20` for 1
 ### Add your own experiments
 
 Copy the structure above: command, figure, numbers, comments.
+
+## Experiments and results
+
+All experiments use the `eight_gaussians` dataset.
+
+### Experiment: _title of the experiment_
+
+**Command**
+
+```bash
+uv run python scripts/run_all.py --datasets eight_gaussians --prior-mean 4 4 \
+    --L-values 1 2 5 --L-steps 100 50 50
+```
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/images/fig1.gif" width="100%" alt="Figure 1"><br>
+      <sub><b>Figure 1.</b> Caption for the first image.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig2.gif" width="100%" alt="Figure 2"><br>
+      <sub><b>Figure 2.</b> Caption for the second image.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig3.gif" width="100%" alt="Figure 3"><br>
+      <sub><b>Figure 3.</b> Caption for the third image.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/images/fig4.gif" width="100%" alt="Figure 4"><br>
+      <sub><b>Figure 4.</b> Caption for the fourth image.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig5.gif" width="100%" alt="Figure 5"><br>
+      <sub><b>Figure 5.</b> Caption for the fifth image.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig6.gif" width="100%" alt="Figure 6"><br>
+      <sub><b>Figure 6.</b> Caption for the sixth image.</sub>
+    </td>
+  </tr>
+</table>
+
+#### Comments
+
+_Write your comments on the six figures here. What do the particles do? Do they cover all eight modes? How do the runs differ, and why do you think so?_
+
+| Figure | Method and settings | SW distance | SW / floor | Training time |
+|---|---|---|---|---|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| 4 | | | | |
+| 5 | | | | |
+| 6 | | | | |
+
+
+
+
+
+
+
+
+
+
 
 ## Measuring computational cost
 
