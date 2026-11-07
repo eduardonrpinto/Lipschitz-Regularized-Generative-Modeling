@@ -273,7 +273,7 @@ uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 100  --
 
 ```
 
-We observe that the GPA with L=100 in the last 1500 steps learns the eight gaussians better than the constant L=1 GPA. This has might have to do with the fact that the signal provided by the L=1 discriminator is too weak for the particles to converge to the target, whereas with L=100 the signal is strong enough. We point out that L=100 does not induce mode collpase in this case, as in the first stage of with L=1 training the model already learned the existence of eight modes.
+We observe that the GPA with L=100 in the last 1500 steps learns the eight gaussians better than the constant L=1 GPA. This has might have to do with the fact that the signal provided by the L=1 discriminator is too weak for the particles to converge to the target, whereas with L=100 the signal is strong enough. We point out that L=100 does not induce mode collpase in this case, as in the first stage of training with L=1 the model already learned the existence of eight modes.
 
 
 
