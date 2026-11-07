@@ -1,13 +1,13 @@
-# Lipschitz Reularized Generative Modeling
+# Lipschitz Regularized Generative Modeling
 
 This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
 - Can GPA be an alternative to GANs and f-GANs that provides more stable training and more effective learning?
 - What role can the Lipschitz regularization parameter L play in algorithms such as f-GANs and GPA? 
 
-The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of $L$ are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topic can be found in: 
+The hypothesis is the following: during training of an algorithm like GAN or GPA, smaller values of L are beneficial in early stages of training, where it is important to explore large regions of the ambient space to avoid mode collapse (Wasserstein-1 behavior), and bigger values of L are better for the refinement of the distribution (KL behavior). Under the supervision of Professor Panagiota Birmpa, from Heriot-Watt Universty, Edinburgh, I have been investigating the theoretical background on this proposal, namely the asymptotic behavior of the discriminator of the (KL,Lip-L)-divergences. Some preliminary results on this topic can be found in: 
 
-**Preprintg:** [Asymptotic behavior of reuglarized discriminators in generative modeling](preprint.pdf), version of November 2026.
+**Preprintg:** [Asymptotic behavior of regularized discriminators in generative modeling](preprint.pdf), version of November 2026.
 
 <!-- Put your best result here, for example a GIF of GPA on eight_gaussians. -->
 <!-- ![hero](docs/images/hero.gif) -->
@@ -178,7 +178,7 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
   <tr>
   <td align="center" width="33%">
       <img src="docs/images/fig_6.png" width="100%" alt="Figure 1"><br>
-      <sub><b>Figure 1.</b> GAN, 12000 steps.</sub>
+      <sub><b>Figure 1.</b> Prior distribution.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
@@ -298,7 +298,7 @@ Lipschitz-Regularized-Generative-Modeling/
 └── docs/images/                  # figures shown in this README
 ```
 
-## Reference
+## References
 
 
 [^1]: Birrell et al., *(f,Γ)*-Divergences: Interpolating between f-Divergences and Integral Probability Metrics*, https://arxiv.org/abs/2011.05953
