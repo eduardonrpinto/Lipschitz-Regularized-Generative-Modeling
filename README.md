@@ -1,6 +1,6 @@
 # Lipschitz Regularized Generative Modeling
 
-This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
+This repository consists of an investigation onto the role of (KL,Lip-L)-divergences (see [^1]) in generative modeling, which are always well defined, even for distributions with disjoint supports. It contains an implementation of an f-GAN (see [^2]) and a GPA, a generative partcle algorithm presented in [^3], and inicial experiments with these two models to try to address the following questions:
 
 - Can GPA be an alternative to GANs and f-GANs that provides more stable training and more effective learning?
 - What role can the Lipschitz regularization parameter L play in algorithms such as f-GANs and GPA? 
