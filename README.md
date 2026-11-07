@@ -188,12 +188,12 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
       <img src="docs/images/fig_2.png" width="100%" alt="Figure 2"><br>
       <sub><b>Figure 2.</b> (KL,Lip-1)-GAN, 12000 steps.</sub>
     </td>
-    <td align="center" width="33%">
+  </tr>
+  <tr>
+   <td align="center" width="33%">
       <img src="docs/images/fig_3.png" width="100%" alt="Figure 3"><br>
       <sub><b>Figure 3.</b> (KL,Lip-20)-GAN, 12000 steps.</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center" width="33%">
       <img src="docs/images/fig_4.png" width="100%" alt="Figure 4"><br>
       <sub><b>Figure 4.</b> GPA, L=1, 3000 steps.</sub>
