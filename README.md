@@ -239,7 +239,38 @@ GPA with L=1 achieves a much finer learning of the target distribution and also 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 100 --L-steps 3000 --prior-mean 4 4
 ```
-GPA with L=100 collapses onto the modes which are nearest from the prior distribution, suggesting that L=100 provides a too strong discrimination signal which makes all the particles collapse immediately onto the closest mode instead of exploring the space. We recall that with L=100, (KL,Lip_100) is closer to KL, which is known for its tendency for mode collpase. 
+GPA with L=100 collapses onto the modes which are nearest from the prior distribution, suggesting that L=100 provides a too strong discrimination signal which makes all the particles collapse immediately onto the closest mode instead of exploring the space. We recall that with L=100, (KL,Lip_100) is closer to KL, which is known for its tendency for mode collpase. In the following two experiments we investigate how increasing the regularization L during training can help learning:
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/images/fig_7.png" width="100%" alt="Figure 1"><br>
+      <sub><b>Figure 1.</b> Prior Distribution.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig_8.png" width="100%" alt="Figure 2"><br>
+      <sub><b>Figure 2.</b> GPA, L=1, 3000 steps.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/images/fig_9.png" width="100%" alt="Figure 2"><br>
+      <sub><b>Figure 2.</b> GPA, L=1 for 1500 steps, L=100 for 1500 steps.</sub>
+    </td>
+  <tr>
+<table>
+
+
+**Figure 7** 
+
+
+
+
+
+
+**Figure 8**
+
+
+
+**Figure 9**
 
 
 
