@@ -182,25 +182,25 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
-      <sub><b>Figure 1.</b> GAN, 12000 steps.</sub>
+      <sub><b>Figure 2.</b> GAN, 12000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_2.png" width="100%" alt="Figure 2"><br>
-      <sub><b>Figure 2.</b> (KL,Lip-1)-GAN, 12000 steps.</sub>
+      <sub><b>Figure 3.</b> (KL,Lip-1)-GAN, 12000 steps.</sub>
     </td>
   </tr>
   <tr>
    <td align="center" width="33%">
       <img src="docs/images/fig_3.png" width="100%" alt="Figure 3"><br>
-      <sub><b>Figure 3.</b> (KL,Lip-20)-GAN, 12000 steps.</sub>
+      <sub><b>Figure 4.</b> (KL,Lip-20)-GAN, 12000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_4.png" width="100%" alt="Figure 4"><br>
-      <sub><b>Figure 4.</b> GPA, L=1, 3000 steps.</sub>
+      <sub><b>Figure 5.</b> GPA, L=1, 3000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_5.png" width="100%" alt="Figure 5"><br>
-      <sub><b>Figure 5.</b> GPA, L=100, 3000 steps.</sub>
+      <sub><b>Figure 6.</b> GPA, L=100, 3000 steps.</sub>
     </td>
   </tr>
 </table>
@@ -243,15 +243,15 @@ GPA with L=100 collapses onto the modes which are nearest from the prior distrib
   <tr>
     <td align="center" width="33%">
       <img src="docs/images/fig_7.png" width="100%" alt="Figure 1"><br>
-      <sub><b>Figure 1.</b> Prior Distribution.</sub>
+      <sub><b>Figure 7.</b> Prior Distribution.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_8.png" width="100%" alt="Figure 2"><br>
-      <sub><b>Figure 2.</b> GPA, L=1, 3000 steps.</sub>
+      <sub><b>Figure 8.</b> GPA, L=1, 3000 steps.</sub>
     </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_9.png" width="100%" alt="Figure 2"><br>
-      <sub><b>Figure 2.</b> GPA, L=1 for 1500 steps, L=100 for 1500 steps.</sub>
+      <sub><b>Figure 9.</b> GPA, L=1 for 1500 steps, L=100 for 1500 steps.</sub>
     </td>
   <tr>
 <table>
