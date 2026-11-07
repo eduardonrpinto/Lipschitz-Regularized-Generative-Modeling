@@ -172,7 +172,7 @@ Run `uv run python scripts/run_all.py --help` for the full list.
 
 ## Experiments and results
 
-All experiments use the `eight_gaussians` dataset. For the first five experiments, the prio distribution is a gaussian with mean (4,4) and standard deviation 2. As for the last two experiments, it is a gaussian with mean (8,8) and standard deviation 2. Below we provide the commands to reproduce the experiments and comments on the results.
+All experiments use the `eight_gaussians` dataset. For the first five experiments, the prior distribution is a gaussian with mean (4,4) and standard deviation 2. As for the last two experiments, it is a gaussian with mean (8,8) and standard deviation 2. Below we provide the commands to reproduce the experiments and comments on the results.
 
 <table>
   <tr>
