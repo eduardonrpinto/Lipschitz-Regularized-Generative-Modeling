@@ -1,5 +1,4 @@
 import argparse
-import csv
 import os
 import time
 
@@ -63,7 +62,6 @@ else:
     to_run = [(sched_name, custom)] if custom is not None else [(s, s) for s in args.schedules]
 
 os.makedirs("assets", exist_ok=True)
-rows = []
 
 for dataset in args.datasets:
     os.makedirs(f"assets/{dataset}", exist_ok=True)
@@ -82,8 +80,6 @@ for dataset in args.datasets:
         sw = sliced_wasserstein(Y, sample_data(len(Y)))
         floor = sliced_wasserstein(sample_data(len(Y)), sample_data(len(Y)))
         print(f"  SW distance = {sw:.4f}   (data vs fresh data: {floor:.4f})")
-        rows.append(dict(dataset=dataset, model=args.model, schedule=name,
-                         solver=args.solver, sw=round(sw, 4), floor=round(floor, 4)))
 
         if not args.no_video:
             out = f"assets/{dataset}/{name}.mp4"
@@ -92,8 +88,3 @@ for dataset in args.datasets:
                                 frame_every=args.frame_every)
             print("  saved", out)
 
-with open("assets/results.csv", "w", newline="") as fh:
-    w = csv.DictWriter(fh, fieldnames=rows[0].keys())
-    w.writeheader()
-    w.writerows(rows)
-print("saved assets/results.csv")
