@@ -38,12 +38,6 @@ uv sync
 
 `uv sync` installs the exact versions in `uv.lock`, so everyone gets the same environment.
 
-Check that the install works:
-
-```bash
-uv run python -c "from genmodel.gpa import gpa; from genmodel.fgan import train_fgan; print('ok')"
-```
-
 **Tested with:** macOS (Darwin) 15.4, Intel Core i5-1030NG7 @ 1.10 GHz, Python 3.9.7, PyTorch 2.2.2.
 
 **Intel Macs:** recent PyTorch releases no longer ship Intel macOS builds. If installation fails, pin an older release: `uv add "torch==2.2.2" "numpy<2"`.
@@ -182,6 +176,10 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
 
 <table>
   <tr>
+  <td align="center" width="33%">
+      <img src="docs/images/fig_6.png" width="100%" alt="Figure 1"><br>
+      <sub><b>Figure 1.</b> GAN, 12000 steps.</sub>
+    </td>
     <td align="center" width="33%">
       <img src="docs/images/fig_1.png" width="100%" alt="Figure 1"><br>
       <sub><b>Figure 1.</b> GAN, 12000 steps.</sub>
@@ -207,34 +205,34 @@ All experiments use the `eight_gaussians` dataset. For the first five experiment
   </tr>
 </table>
 
-**Figure 1** 
+**Figure 2** 
 
 ```bash
  uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence gan  --prior-mean 4 4 --no-projection -n-steps 12000
 ```
 
-**Figure 2** 
+**Figure 3** 
 
 ```bash
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 1 --L-steps 12000
 ```
-We observe that the f-GAN with (KL,Lip-1)-divergence learns the whole data landscape better than the conventional GAN, but still fails to capture the eight distinct gaussians
+We observe that the f-GAN with (KL,Lip-1)-divergence learns the whole data landscape better than the conventional GAN, but still fails to capture the eight distinct gaussians.
 
-**Figure 3** 
+**Figure 4** 
 
 ```bash
 uv run python scripts/run_all.py --model fgan --datasets eight_gaussians --divergence kl  --prior-mean 4 4 --L-values 20 --L-steps 12000
 ```
-With (KL,Lip-20)-GAN we observe improvements in comparison to the (KL,Lip-20)-GAN with the same number of training steps, altough far from a satisfatory learning of the distributions
+With (KL,Lip-20)-GAN we observe improvements in comparison to the (KL,Lip-20)-GAN with the same number of training steps, altough far from a satisfatory learning of the distributions.
 
-**Figure 4** 
+**Figure 5** 
 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 --L-steps 3000 --prior-mean 4 4
 ```
 GPA with L=1 achieves a much finer learning of the target distribution and also more stable training. This could have to do with the fact that GPA only has to train a neural network for learning the discriminator and not two neural networks like GAN. 
 
-**Figure 5** 
+**Figure 6** 
 
 ```bash
 uv run python scripts/run_all.py --datasets eight_gaussians --L-values 100 --L-steps 3000 --prior-mean 4 4
@@ -259,18 +257,23 @@ GPA with L=100 collapses onto the modes which are nearest from the prior distrib
 <table>
 
 
-**Figure 7** 
-
-
-
-
-
-
 **Figure 8**
 
+```bash
 
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1  --L-steps 3000 --prior-mean 8 8
+
+```
 
 **Figure 9**
+
+```bash
+
+uv run python scripts/run_all.py --datasets eight_gaussians --L-values 1 100  --L-steps 1500 1500 --prior-mean 8 8
+
+```
+
+We observe that the GPA with L=1000 in the last 1500 steps learns the eight gaussians better than the constant L=1 GPA. This has might have to do with the fact that the signal provided by the L=1 discriminator is too weak for the particles to converge to the target, whereas with L=100 the signal is strong enough. We point out that L=100 does not induce mode collpase in this case, as in the first stage of with L=1 training the model already learned the existence of eight modes.
 
 
 
