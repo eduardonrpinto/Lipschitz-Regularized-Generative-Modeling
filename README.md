@@ -164,11 +164,6 @@ Run `uv run python scripts/run_all.py --help` for the full list.
 | `--print-every` | both | Print the divergence estimate every this many steps | 25 |
 | `--no-video` | both | Skip the video and only print and save numbers | off |
 
-## Output files
-
-- `assets/<dataset>/<run name>.mp4`: video of the particles (blue) moving onto samples of the data (gray). The title shows the step and the current `L`.
-- `assets/results.csv`: one row per run with the dataset, model, schedule, solver, sliced Wasserstein distance (`sw`), the `floor`, and the training time.
-- The terminal shows the divergence estimate every `--print-every` steps. It tracks the stage of training and is noisy, so look at the trend.
 
 ## Experiments and results
 
